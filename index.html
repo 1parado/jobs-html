@@ -15,8 +15,6 @@
   .wrap { max-width: 880px; margin: 0 auto; padding: clamp(32px,6vw,72px) 20px 96px; }
   .kicker { font-size: 12px; letter-spacing: .14em; color: var(--accent); margin-bottom: 14px; }
   h1 { font-size: clamp(26px, 4.5vw, 34px); font-weight: 650; letter-spacing: -.01em; }
-  .sub { color: var(--muted); margin-top: 8px; font-size: 13.5px; }
-  .sub b { color: var(--txt); font-weight: 550; }
   .deadline { margin-top: 28px; padding: 12px 16px; background: var(--warm-soft); border-radius: 10px; font-size: 13.5px; color: oklch(38% 0.07 55); }
   .deadline b { font-weight: 600; }
   .chips { display: flex; gap: 6px; margin: 32px 0 0; flex-wrap: wrap; }
@@ -58,6 +56,56 @@
   .skeleton td { color: var(--faint); font-size: 12.5px; }
   footer { margin-top: 72px; padding-top: 20px; border-top: 1px solid var(--hair); color: var(--faint); font-size: 12.5px; }
   [hidden] { display: none !important; }
+
+  /* ---- 视觉打磨 ---- */
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+    background: radial-gradient(64% 42% at 50% -6%, oklch(50% 0.075 178 / .07), transparent 70%);
+  }
+  .kicker { display: inline-block; padding: 5px 12px; border-radius: 999px; background: var(--accent) ; color: oklch(98% 0.01 178); letter-spacing: .12em; font-size: 11.5px; }
+  h1 { margin-top: 16px; }
+  .deadline { border: 1px solid oklch(88% 0.05 75); box-shadow: 0 1px 2px oklch(30% 0.05 60 / .04); }
+
+  thead th { position: sticky; top: 0; background: var(--bg); z-index: 1; }
+  tbody td { transition: padding-left .2s cubic-bezier(.25,1,.3,1); }
+  tbody tr:hover td { border-bottom-color: transparent; }
+  tbody tr:hover td:first-child { padding-left: 16px; }
+  tbody tr:hover .co { color: var(--accent); }
+  .co { transition: color .18s ease-out; }
+
+  .chip { position: relative; }
+  .chip::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 3px; height: 2px; border-radius: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .22s cubic-bezier(.25,1,.3,1); }
+  .chip[aria-pressed="true"]::after { transform: scaleX(1); }
+  .chip[aria-pressed="true"] { background: transparent; color: var(--txt); font-weight: 550; }
+
+  .search {
+    padding-left: 38px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%239aa3a8' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: 13px center;
+  }
+  .search:focus { border-color: var(--accent); }
+
+  summary:hover .plus { color: var(--accent); }
+  summary { transition: color .18s ease-out; }
+  summary:hover { color: var(--accent); }
+
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px;
+  }
+
+  /* ---- 入场动效 ---- */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  header { animation: fadeUp .55s cubic-bezier(.22,1,.36,1) .02s backwards; }
+  .deadline { animation: fadeUp .55s cubic-bezier(.22,1,.36,1) .1s backwards; }
+  .chips { animation: fadeUp .55s cubic-bezier(.22,1,.36,1) .16s backwards; }
+  #main { animation: fadeUp .55s cubic-bezier(.22,1,.36,1) .22s backwards; }
+  #allBox { animation: fadeUp .55s cubic-bezier(.22,1,.36,1) .28s backwards; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
   .m-roles { display: none; }
   .btn { font: inherit; font-size: 13px; padding: 8px 14px; border-radius: 9px; border: 1px solid var(--hair); background: var(--surface); color: var(--txt); cursor: pointer; transition: border-color .18s ease-out, opacity .18s ease-out; -webkit-tap-highlight-color: transparent; }
   .btn:hover { border-color: var(--faint); }
@@ -83,7 +131,6 @@
   <header>
     <div class="kicker">秋招 · 成都 · 2027 届</div>
     <h1>成都校招速查</h1>
-    <p class="sub"><b>11 家可直接投递</b> · 8 家需官网确认 · 基于 1915 条公司记录与 2026-09-13 检索</p>
   </header>
 
   <div class="deadline">⏳ 最近截止：<b>招银网络科技</b> 第二批 9月20日 · <b>中电科十所</b> 10月18日 · 大厂均为滚动招聘</div>
@@ -140,7 +187,6 @@
     </div>
   </details>
 
-  <footer>数据来源：companies.json · 秋招信息检索于 2026-09-13 · 无把握的校招入口未提供链接，可搜索"公司名 + 校招"获取</footer>
 </div>
 
 <script>
