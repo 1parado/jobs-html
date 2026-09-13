@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成都校招速查 · 2027届</title>
+<style>
+  :root {
+    --bg: oklch(98.5% 0.004 95); --surface: oklch(100% 0 0);
+    --txt: oklch(26% 0.012 95); --muted: oklch(56% 0.008 95); --faint: oklch(72% 0.006 95);
+    --hair: oklch(92.5% 0.005 95); --accent: oklch(50% 0.075 178); --warm: oklch(58% 0.125 55); --warm-soft: oklch(96.5% 0.03 70);
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--txt); font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif; font-size: 14px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: clamp(32px,6vw,72px) 20px 96px; }
+  .kicker { font-size: 12px; letter-spacing: .14em; color: var(--accent); margin-bottom: 14px; }
+  h1 { font-size: clamp(26px, 4.5vw, 34px); font-weight: 650; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin-top: 8px; font-size: 13.5px; }
+  .sub b { color: var(--txt); font-weight: 550; }
+  .deadline { margin-top: 28px; padding: 12px 16px; background: var(--warm-soft); border-radius: 10px; font-size: 13.5px; color: oklch(38% 0.07 55); }
+  .deadline b { font-weight: 600; }
+  .chips { display: flex; gap: 6px; margin: 32px 0 0; flex-wrap: wrap; }
+  .chip { border: none; background: transparent; cursor: pointer; font: inherit; font-size: 13px; color: var(--muted); padding: 6px 12px; border-radius: 999px; transition: background .18s cubic-bezier(.25,1,.3,1), color .18s cubic-bezier(.25,1,.3,1); }
+  .chip:hover { background: oklch(94.5% 0.006 95); }
+  .chip[aria-pressed="true"] { background: var(--txt); color: var(--bg); }
+  .chip .n { font-size: 11.5px; opacity: .65; margin-left: 3px; font-variant-numeric: tabular-nums; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  thead th { font-size: 11.5px; font-weight: 500; letter-spacing: .08em; color: var(--faint); text-align: left; padding: 14px 12px 8px; border-bottom: 1px solid var(--hair); }
+  tbody td { padding: 13px 12px; border-bottom: 1px solid var(--hair); vertical-align: top; }
+  tbody tr { transition: background .15s cubic-bezier(.25,1,.3,1); }
+  tbody tr:hover { background: var(--surface); }
+  .co { font-weight: 550; }
+  .entry { font-size: 12px; color: var(--faint); margin-top: 2px; }
+  .roles { white-space: nowrap; color: var(--muted); font-size: 13px; }
+  .desc { color: var(--muted); font-size: 13px; max-width: 34ch; }
+  .dl { display: inline-block; margin-left: 4px; padding: 1px 8px; border-radius: 5px; background: var(--warm-soft); color: var(--warm); font-size: 12px; white-space: nowrap; }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+  .dot.yes { background: var(--accent); } .dot.mid { background: oklch(72% 0.12 85); } .dot.no { background: oklch(84% 0.008 95); }
+  .tier-txt { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+  .ext { color: var(--accent); text-decoration: none; font-size: 13px; white-space: nowrap; }
+  .ext:hover .arr { margin-left: 2px; }
+  .arr { transition: margin .15s ease-out; }
+  .dim { color: var(--faint); font-size: 12.5px; }
+  details { margin-top: 56px; }
+  summary { cursor: pointer; list-style: none; user-select: none; font-size: 15px; font-weight: 550; color: var(--txt); padding: 18px 0; border-top: 1px solid var(--hair); display: flex; align-items: baseline; gap: 10px; }
+  summary::-webkit-details-marker { display: none; }
+  summary .cnt { font-size: 12.5px; font-weight: 400; color: var(--faint); }
+  summary .plus { margin-left: auto; color: var(--faint); font-size: 18px; font-weight: 300; transition: transform .25s cubic-bezier(.25,1,.3,1); }
+  details[open] .plus { transform: rotate(45deg); }
+  details .inner { padding: 6px 0 24px; }
+  .search { width: 100%; max-width: 360px; margin: 4px 0 18px; padding: 9px 14px; font: inherit; font-size: 13.5px; border: 1px solid var(--hair); border-radius: 9px; background: var(--surface); color: var(--txt); outline: none; transition: border-color .18s ease-out; }
+  .search:focus { border-color: var(--faint); }
+  .search::placeholder { color: var(--faint); }
+  .cat { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+  .num { font-variant-numeric: tabular-nums; color: var(--muted); }
+  .alias { color: var(--faint); font-size: 12px; line-height: 1.7; max-width: 40ch; }
+  .status { color: var(--faint); font-size: 12.5px; padding: 12px; text-align: left; }
+  .skeleton td { color: var(--faint); font-size: 12.5px; }
+  footer { margin-top: 72px; padding-top: 20px; border-top: 1px solid var(--hair); color: var(--faint); font-size: 12.5px; }
+  [hidden] { display: none !important; }
+  @media (max-width: 640px) {
+    thead th:nth-child(2), tbody td:nth-child(2), thead th:nth-child(3), tbody td:nth-child(3) { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">秋招 · 成都 · 2027 届</div>
+    <h1>成都校招速查</h1>
+    <p class="sub"><b>11 家可直接投递</b> · 8 家需官网确认 · 基于 1915 条公司记录与 2026-09-13 检索</p>
+  </header>
+
+  <div class="deadline">⏳ 最近截止：<b>招银网络科技</b> 第二批 9月20日 · <b>中电科十所</b> 10月18日 · 大厂均为滚动招聘</div>
+
+  <div class="chips" role="group" aria-label="筛选状态">
+    <button class="chip" data-f="all" aria-pressed="true">全部<span class="n">22</span></button>
+    <button class="chip" data-f="yes" aria-pressed="false">可投<span class="n">11</span></button>
+    <button class="chip" data-f="mid" aria-pressed="false">待确认<span class="n">8</span></button>
+    <button class="chip" data-f="no" aria-pressed="false">暂无<span class="n">3</span></button>
+  </div>
+
+  <table id="main">
+    <thead><tr><th>公司</th><th>岗位</th><th>情况</th><th>状态</th><th></th></tr></thead>
+    <tbody>
+<tr data-tier="yes"><td><div class="co">华为</div><div class="entry">华为 / 华为-成都 等 6 条</div></td><td class="roles">开发 · AI</td><td class="desc">2027 校招含 AI/GPU/CPU 软件开发（成研所·海思图灵），另有云服务、AI 平台岗 </td><td><span class="dot yes"></span><span class="tier-txt">可投</span></td><td class="site-cell"><a class="ext" href="https://career.huawei.com/reccampportal/portal/portal_release/pages/index.html" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="yes"><td><div class="co">招银网络科技</div><div class="entry">招银网络科技</div></td><td class="roles">开发 · 测试 · AI</td><td class="desc">后端 / 前端 / 算法 / 测试 / 运维，地点含成都 <span class="dl">9月20日第二批截止</span></td><td><span class="dot yes"></span><span class="tier-txt">可投</span></td><td class="site-cell"><a class="ext" href="https://cmbnt.cmbchina.com/" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="yes"><td><div class="co">中国电科十所</div><div class="entry">中电10所</div></td><td class="roles">开发 · 测试 · AI</td><td class="desc">招 200 人，软件开发 / 软件测试 / AI 算法，硕博 <span class="dl">10月18日截止</span></td><td><span class="dot yes"></span><span class="tier-txt">可投</span></td><td class="site-cell"><a class="ext" href="https://campus.51job.com/m/cetc10/" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="yes"><td><div class="co">腾讯</div><div class="entry">腾讯 等 18 条</div></td><td class="roles">开发</td><td class="desc">2027 校招地点含成都；天美工作室（王者荣耀）、企业微信、腾讯云 </td><td><span class="dot yes"></span><span class="tier-txt">可投</span></td><td class="site-cell"><a class="ext" href="https://careers.tencent.com/zh-cn/campus.html" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="yes"><td><div class="co">字节跳动</div><div class="entry">字节 / 字节跳动 等 4 条</div></td><td class="roles">开发 · AI</td><td class="desc">研发、算法、AI 全栈、AI Agent 开发，地点含成都 <span class="dl">滚动招满即止</span></td><td><span class="dot yes"></span><span class="tier-txt">可投</span></td><td class="site-cell"><a class="ext" href="https://jobs.bytedance.com/campus/position" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="yes"><td><div class="co">阿里巴巴</div><div class="entry">阿里系 16 条</div></td><td class="roles">开发 · AI</td><td class="desc">研发 / 算法 / 千问大模型岗，地点含成都 <span class="dl">滚动招满即止</span></td><td><span class="dot yes"></span><span class="tier-txt">可投</span></td><td class="site-cell"><a class="ext" href="https://campus.alibaba.com/positionList.htm" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="yes"><td><div class="co">美团</div><div class="entry">美团 / 美团点评</div></td><td class="roles">开发 · AI</td><td class="desc">AI-Native、AI 全栈工程师等，地点含成都 <span class="dl">滚动招满即止</span></td><td><span class="dot yes"></span><span class="tier-txt">可投</span></td><td class="site-cell"><a class="ext" href="https://campus.meituan.com/" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="yes"><td><div class="co">百度</div><div class="entry">百度 / 某度 等 4 条</div></td><td class="roles">开发 · AI</td><td class="desc">AI 岗占比超 90%，地点含成都 <span class="dl">滚动招满即止</span></td><td><span class="dot yes"></span><span class="tier-txt">可投</span></td><td class="site-cell"><a class="ext" href="https://talent.baidu.com/jobs/campus-list" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="yes"><td><div class="co">滴滴</div><div class="entry">滴滴 等 4 条</div></td><td class="roles">开发 · AI</td><td class="desc">自动驾驶、智能交通方向，地点含成都 <span class="dl">滚动招满即止</span></td><td><span class="dot yes"></span><span class="tier-txt">可投</span></td><td class="site-cell"><a class="ext" href="https://talent.didiglobal.com/campus" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="yes"><td><div class="co">京东</div><div class="entry">京东系 11 条</div></td><td class="roles">开发</td><td class="desc">成都有研发中心（零售 / 京东云 / 数科），按城市筛岗 </td><td><span class="dot yes"></span><span class="tier-txt">可投</span></td><td class="site-cell"><a class="ext" href="https://campus.jd.com/" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="yes"><td><div class="co">中国电科29所</div><div class="entry">（名单外）</div></td><td class="roles">开发</td><td class="desc">计算机与软件类岗位，硕博，20–30k </td><td><span class="dot yes"></span><span class="tier-txt">可投</span></td><td class="site-cell"><span class="dim">公众号</span></td></tr>
+<tr data-tier="mid"><td><div class="co">科大讯飞</div><div class="entry">科大讯飞 等 3 条</div></td><td class="roles">AI · 开发</td><td class="desc">成都有讯飞星火软件工程总部，投递时可选成都岗 </td><td><span class="dot mid"></span><span class="tier-txt">待确认</span></td><td class="site-cell"><a class="ext" href="https://campus.iflytek.com/" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="mid"><td><div class="co">OPPO</div><div class="entry">OPPO</div></td><td class="roles">开发</td><td class="desc">成都有研发中心（软件与互联网业务），按城市确认 </td><td><span class="dot mid"></span><span class="tier-txt">待确认</span></td><td class="site-cell"><a class="ext" href="https://careers.oppo.com/campus" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="mid"><td><div class="co">商汤</div><div class="entry">商汤 / 商汤科技</div></td><td class="roles">AI</td><td class="desc">成都有研发团队，校招以北京 / 上海 / 杭州为主 </td><td><span class="dot mid"></span><span class="tier-txt">待确认</span></td><td class="site-cell"><a class="ext" href="https://campus.sensetime.com/" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="mid"><td><div class="co">中兴通讯</div><div class="entry">中兴 等 4 条</div></td><td class="roles">开发</td><td class="desc">成都有研发中心，官网按工作地筛选 </td><td><span class="dot mid"></span><span class="tier-txt">待确认</span></td><td class="site-cell"><a class="ext" href="https://job.zte.com.cn/" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="mid"><td><div class="co">爱奇艺</div><div class="entry">爱奇艺</div></td><td class="roles">开发</td><td class="desc">成都有研发团队（天府软件园），按城市确认 </td><td><span class="dot mid"></span><span class="tier-txt">待确认</span></td><td class="site-cell"><a class="ext" href="https://campus.iqiyi.com/" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="mid"><td><div class="co">携程</div><div class="entry">携程</div></td><td class="roles">开发</td><td class="desc">成都有研发中心，校招以上海 / 南通为主 </td><td><span class="dot mid"></span><span class="tier-txt">待确认</span></td><td class="site-cell"><a class="ext" href="https://campus.ctrip.com/" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="mid"><td><div class="co">育碧成都</div><div class="entry">育碧 / 育碧成都</div></td><td class="roles">开发（游戏）</td><td class="desc">本土游戏工作室，技术岗需官网确认 </td><td><span class="dot mid"></span><span class="tier-txt">待确认</span></td><td class="site-cell"><a class="ext" href="https://www.ubisoft.com/zh-cn/company/careers" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="mid"><td><div class="co">咪咕音乐</div><div class="entry">咪咕系 5 条</div></td><td class="roles">开发</td><td class="desc">咪咕音乐总部在成都，随移动集团统一招聘 </td><td><span class="dot mid"></span><span class="tier-txt">待确认</span></td><td class="site-cell"><a class="ext" href="https://job.10086.cn/" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="no"><td><div class="co">网易</div><div class="entry">网易系 11 条</div></td><td class="roles">—</td><td class="desc">2027 校招城市不含成都 </td><td><span class="dot no"></span><span class="tier-txt">暂无</span></td><td class="site-cell"><a class="ext" href="https://campus.163.com/" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="no"><td><div class="co">快手</div><div class="entry">快手</div></td><td class="roles">—</td><td class="desc">2027 校招城市不含成都 </td><td><span class="dot no"></span><span class="tier-txt">暂无</span></td><td class="site-cell"><a class="ext" href="https://campus.kuaishou.cn/" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+<tr data-tier="no"><td><div class="co">小米</div><div class="entry">小米系 5 条</div></td><td class="roles">—</td><td class="desc">2027 校招城市不含成都（成都团队社招为主） </td><td><span class="dot no"></span><span class="tier-txt">暂无</span></td><td class="site-cell"><a class="ext" href="https://hr.xiaomi.com/campus" target="_blank" rel="noopener">官网<span class="arr"> ↗</span></a></td></tr>
+
+    </tbody>
+  </table>
+
+  <details id="allBox">
+    <summary>完整公司清单<span class="cnt">1870 家 · 按需加载</span><span class="plus">＋</span></summary>
+    <div class="inner" hidden>
+      <input class="search" id="q" placeholder="搜索公司名或分类…">
+      <table>
+        <thead><tr><th>公司</th><th>分类</th><th>名单中的写法</th><th>校招官网</th></tr></thead>
+        <tbody id="listBody"><tr class="skeleton"><td colspan="4">加载中…</td></tr></tbody>
+      </table>
+      <div class="status" id="status"></div>
+    </div>
+  </details>
+
+  <footer>数据来源：companies.json · 秋招信息检索于 2026-09-13 · 无把握的校招入口未提供链接，可搜索"公司名 + 校招"获取</footer>
+</div>
+
+<script>
+  // 状态筛选
+  const chips = document.querySelectorAll('.chip');
+  const rows = document.querySelectorAll('#main tbody tr');
+  chips.forEach(c => c.addEventListener('click', () => {
+    chips.forEach(x => x.setAttribute('aria-pressed', x === c));
+    const f = c.dataset.f;
+    rows.forEach(r => r.hidden = (f !== 'all' && r.dataset.tier !== f));
+  }));
+
+  // 全量清单：按需加载 + 分块渲染
+  const PAGE = 120;
+  let DATA = null, view = [], shown = 0;
+  const listBody = document.getElementById('listBody');
+  const statusEl = document.getElementById('status');
+  const q = document.getElementById('q');
+  const inner = document.querySelector('#allBox .inner');
+
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  function renderChunk() {
+    const next = view.slice(shown, shown + PAGE);
+    const frag = document.createDocumentFragment();
+    for (const r of next) {
+      const tr = document.createElement('tr');
+      const site = r.s ? `<a class="ext" href="${esc(r.s)}" target="_blank" rel="noopener">校招<span class="arr"> ↗</span></a>` : '';
+      const nameHtml = r.k
+        ? `<div class="co">${esc(r.n)}</div><div class="entry">${esc(r.a)}（${r.cnt} 条）</div>`
+        : `<div class="co">${esc(r.n)}</div>`;
+      tr.innerHTML = `<td>${nameHtml}</td><td class="cat">${esc(r.c)}</td><td class="alias">${r.k ? esc(r.a) : ''}</td><td>${site}</td>`;
+      frag.appendChild(tr);
+    }
+    // 移除骨架/旧状态行
+    listBody.querySelector('.skeleton')?.remove();
+    listBody.appendChild(frag);
+    shown += next.length;
+    statusEl.textContent = shown < view.length
+      ? `已显示 ${shown} / ${view.length} 家`
+      : (view.length ? `共 ${view.length} 家` : '没有匹配的公司');
+  }
+
+  function applyFilter() {
+    const kw = q.value.trim().toLowerCase();
+    view = !kw ? DATA : DATA.filter(r => (r.n + ' ' + r.c + ' ' + r.a).toLowerCase().includes(kw));
+    listBody.innerHTML = '';
+    shown = 0;
+    renderChunk();
+  }
+
+  document.getElementById('allBox').addEventListener('toggle', async e => {
+    inner.hidden = !e.target.open;
+    if (!e.target.open || DATA) return;
+    try {
+      const res = await fetch('data.json');
+      DATA = await res.json();
+      inner.hidden = false;
+      applyFilter();
+    } catch (err) {
+      listBody.innerHTML = '<tr class="skeleton"><td colspan="4">加载失败，请刷新重试</td></tr>';
+    }
+  });
+
+  q.addEventListener('input', () => { if (DATA) applyFilter(); });
+
+  // 滚动到底自动加载下一块
+  new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && DATA && shown < view.length && document.getElementById('allBox').open) renderChunk();
+  }, { rootMargin: '400px' }).observe(statusEl);
+</script>
+</body>
+</html>
